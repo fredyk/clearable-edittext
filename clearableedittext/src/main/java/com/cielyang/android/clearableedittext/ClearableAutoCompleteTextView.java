@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -23,8 +24,10 @@ public class ClearableAutoCompleteTextView extends AppCompatAutoCompleteTextView
 
   @DrawableRes
   private static final int DEFAULT_CLEAR_ICON_RES_ID = R.drawable.ic_clear;
+  private int mDrawableLeftResoureceId;
 
   private Drawable mClearIconDrawable;
+  private Drawable mDrawableLeft;
 
   private boolean mIsClearIconShown = false;
 
@@ -57,10 +60,23 @@ public class ClearableAutoCompleteTextView extends AppCompatAutoCompleteTextView
       }
     }
 
+    mDrawableLeftResoureceId = attrs.getAttributeResourceValue(
+        "http://schemas.android.com/apk/res/android",
+        "drawableStart",
+        0);
+
+    if (mDrawableLeftResoureceId != 0 && mDrawableLeft == null) {
+      mDrawableLeft = ContextCompat.getDrawable(getContext(), mDrawableLeftResoureceId);
+    }
+
+
     mClearIconDrawWhenFocused = a
         .getBoolean(R.styleable.ClearableEditText_clearIconDrawWhenFocused, true);
 
     a.recycle();
+
+    postDelayed(() -> showClearIcon(false), 67);
+
   }
 
   @Override
@@ -134,13 +150,13 @@ public class ClearableAutoCompleteTextView extends AppCompatAutoCompleteTextView
     if (show) {
       // show icon on the right
       if (mClearIconDrawable != null) {
-        setCompoundDrawablesWithIntrinsicBounds(null, null, mClearIconDrawable, null);
+        setCompoundDrawablesWithIntrinsicBounds(mDrawableLeft, null, mClearIconDrawable, null);
       } else {
-        setCompoundDrawablesWithIntrinsicBounds(0, 0, DEFAULT_CLEAR_ICON_RES_ID, 0);
+        setCompoundDrawablesWithIntrinsicBounds(mDrawableLeftResoureceId, 0, DEFAULT_CLEAR_ICON_RES_ID, 0);
       }
     } else {
       // remove icon
-      setCompoundDrawables(null, null, null, null);
+      setCompoundDrawablesWithIntrinsicBounds(mDrawableLeft, null, null, null);
     }
     mIsClearIconShown = show;
   }
