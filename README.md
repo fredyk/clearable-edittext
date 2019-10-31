@@ -22,7 +22,7 @@ Step 1. Add it in your root build.gradle at the end of repositories:
 ```groovy
 allprojects {
   repositories {
-    ... 
+    //... 
     
     maven { url 'https://jitpack.io' }
   }
@@ -32,7 +32,7 @@ allprojects {
 Step 2. Add the dependency
 ```groovy
 dependencies {
-  compile 'com.github.Cielsk:clearable-edittext:0.0.3'
+  compile 'com.github.Cielsk:clearable-edittext:0.0.5'
 }
 ```
 The latest version is shown on JitPack badge.
@@ -68,3 +68,18 @@ Screenshot of demo:
 ![Custom Icon](https://raw.githubusercontent.com/Cielsk/clearable-edittext/master/asset/custom-icon.png)
 
 You can use subclasses in the same way(just change the class name).
+
+
+This library also supports some event listeners
+#### OnTextClearedListener
+
+This is called when the text is cleared
+
+```
+clearableEditText.setOnTextClearedListener(new OnTextClearedListener() {
+    @Override
+    public void onTextCleared() {
+        // your code here
+    }
+});
+```
