@@ -129,7 +129,7 @@ public class ClearableEditText extends AppCompatEditText implements TextWatcher 
                         ? getCompoundPaddingEnd()
                         : getCompoundPaddingRight();
 
-        return touchPointX >= widthOfView - compoundPadding;
+        return (touchPointX >= widthOfView - compoundPadding) && isEnabled();
     }
 
     private void showClearIcon(boolean show) {
